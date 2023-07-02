@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>
+		New Movie
+	</title>
+	<link rel="stylesheet" href="/css/stile.css" />
+</head>
+
+<body>
+	<header>
+		<div th:if="${userDetails}">
+			<span th:text="${userDetails.username}"></span>
+			<a href="/logout">Logout</a>
+		</div>
+		<div th:unless="${userDetails}">
+			<a href="/login">Login</a>
+		</div>
+	</header>
+
+	<div class="img"><a href="/"><img src="/images/logo-siw.png" width="50%" /></a></div>
+	<main class="column margin-top" style="margin-top: 2%;">
+
+        <div th:fragment="movie-banner" class="movie-banner">
+            <div id="movie-image" class="column" style="height:100%; width:40%;">
+                <img th:src="@{'data:image;base64,' + ${movie.urlImage}}" style="height: 300px; width: 220px;margin: 10px 10px 10px 30px;">
+            </div>
+            <div id="movie-info" style="height:100%; width:60%;">
+                <div>
+                    <h2 th:text="'Titolo: '+${movie.title}"></h2>
+                </div>
+                <hr>
+                <div>
+                    <h2 th:text="'Anno di Pubblicazione: '+${movie.year}"></h2>
+                </div>
+                <hr>
+                <div th:if="${movie.director}">
+			        <h2>Regista: <span th:text="${movie.director.name} + ' ' + ${movie.director.surname}">Steven
+				Spielberg</span><span> <a th:href="@{'/admin/addDirector/' + ${movie.id}}">Modifica regista</a> </span></h2>
+	            </div>
+	            <div th:unless="${movie.director}">
+			        <h2><a th:href="@{'/admin/addDirector/' + ${movie.id}}">Aggiungi regista</a></h2>
+		        </div>
+		        <hr>
+		        <div>
+                    <a class="link" th:href="@{'/admin/updateActors/' + ${movie.id}}">
+                        <h2 th:text="'Modifica lista attori'"></h2>
+                    </a>
+               </div>
+               <hr>
+               <div>
+                    <a class="link" th:href="@{'/admin/updateTypes/' + ${movie.id}}">
+                        <h2 th:text="'Modifica genere/i film'"></h2>
+                    </a>
+               </div>
+               <hr>
+		
+		<div>
+		<span>Recensioni:</span>
+		<div th:if="${movie.movieReviews==null || movie.movieReviews.isEmpty()}"><h2>Non ci sono recensioni di questo film</h2></div>
+        <ul>
+		<li th:each="review : ${movie.movieReviews}">
+			
+			<a th:href="@{'/reviews' + '/' + ${review.id}}"
+				th:text="${review.title} + '(Valutazione: ' + ${review.valutazione} + ' stelle)'">Wow (Valutazione n stelle)</a>
+		    <span> <a th:href="@{'/admin/removeReviewFromMovie/'+${movie.id}+'/'+${review.id}}"> Cancella recensione </a> </span>
+		</li>
+	    </ul>
+	    </div>
+	    <hr>
+	    
+	    <div>
+			<h1><a th:href="@{'/admin/editMovie' + '/' + ${movie.id}}"> Modifica film </a></h1>
+		</div>
+		<hr>
+	    
+	    <div>
+		<h1><a th:href="@{'/admin/removeMovie' + '/' + ${movie.id}}"> Elimina film </a></h1>
+	    </div>
+	    </div>
+		</div></main>
+</body>
+
+</html>

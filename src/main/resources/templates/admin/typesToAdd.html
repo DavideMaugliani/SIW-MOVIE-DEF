@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Scelta attori</title>
+	<link rel="stylesheet" href="/css/stile.css" />
+</head>
+
+<body>
+	<header>
+		<div th:if="${userDetails}">
+			<span th:text="${userDetails.username}"></span>
+			<a href="/logout">Logout</a>
+		</div>
+		<div th:unless="${userDetails}">
+			<a href="/login">Login</a>
+		</div>
+	</header>
+	<div class="img"><a href="/"><img src="/images/logo-siw.png" width="50%"/></a></div>
+	<div class="box">
+		<div>
+	<h1 th:text="'Genere del film ' + ${movie.title}"></h1>
+	<div th:if="${movie.movieTypes.isEmpty()}">Non ci sono ancora generi per questo film</div>
+	<ul>
+		<li th:each="type : ${movie.movieTypes}">
+			<span th:text="${type.name}"></span>
+			<a th:href="@{'/admin/removeTypeFromMovie/'+ ${type.id}+'/'+${movie.id}}">Cancella</a>
+		</li>
+	</ul>
+	<div>
+		Generi che si possono aggiungere:
+		<ul>
+			<li th:each="type : ${typesToAdd}">
+				<span th:text="${type.name}"></span>
+				<a th:href="@{'/admin/addTypeToMovie/'+ ${type.id}+'/'+${movie.id}}">Aggiungi</a>
+			</li>
+		</ul>
+	<div>
+	<div>
+		<a th:href="@{'/admin/formUpdateMovie/'+ ${movie.id}}"><button type="button">Fine</button></a>
+	</div></div></div>
+</body>
+
+</html>

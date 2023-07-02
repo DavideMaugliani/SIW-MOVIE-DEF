@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>
+		Review List
+	</title>
+	<link rel="stylesheet" href="/css/stile.css" />
+</head>
+
+<body>
+	<header>
+		<div th:if="${userDetails}">
+			<span th:text="${userDetails.username}"></span>
+			<a href="/logout">Logout</a>
+		</div>
+		<div th:unless="${userDetails}">
+			<a href="/login">Login</a>
+		</div>
+	</header>
+
+	<div class="img"><a href="/"><img src="/images/logo-siw.png" width="50%"/></a></div>
+	
+	<div class="box">
+		<div>
+	<h1> Lista recensioni dell'utente </h1>
+	<div th:if="${reviews}">
+		<ul>
+		<li th:each="review : ${reviews}">
+			<h5 th:text="'Film: ' + ${review.movie.title} + ' - Titolo recensione: ' + 
+				${review.title} + '(Valutazione: ' + ${review.valutazione} + ' stelle)'">
+				Wow (Valutazione n stelle) </h5>
+				<h5><a th:href="@{'/default/editReview' + '/' + ${review.id}}"> Modifica recensione </a></h5>
+		</li>
+	    </ul>
+	</div>
+	<div th:unless="${reviews} or ${reviews.isEmpty()}"> Non ci sono recensioni per questo utente</div></div></div>
+</body>
+</html>

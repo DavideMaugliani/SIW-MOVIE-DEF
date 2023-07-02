@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Film</title>
+	<link rel="stylesheet" href="/css/stile.css" />
+</head>
+
+<body>
+	<header>
+		<div th:if="${userDetails}">
+			<span th:text="${userDetails.username}"></span>
+			<a href="/logout">Logout</a>
+		</div>
+		<div th:unless="${userDetails}">
+			<a href="/login">Login</a>
+		</div>
+	</header>
+
+	<div class="img"><a href="/"><img src="/images/logo-siw.png" width="50%"/></a></div>
+	<main class="column margin-top" style="margin-top: 2%;">
+
+        <div th:fragment="movie-banner" class="movie-banner">
+            <div id="movie-image" class="column" style="height:100%; width:40%;">
+                <img th:src="@{'data:image;base64,' + ${movie.urlImage}}" style="height: 300px; width: 220px;margin: 10px 10px 10px 30px;">
+            </div>
+            <div id="movie-info" style="height:100%; width:60%;">
+                <div>
+                    <h2 th:text="'Titolo: '+${movie.title}"></h2>
+                </div>
+                <hr>
+                
+                <div>
+                    <h2 th:text="'Anno di Pubblicazione: '+${movie.year}"></h2>
+                </div>
+                <hr>
+                
+                <div th:if="${movie.director}">
+		        <h2>Regista: <span th:text="${movie.director.name} + ' ' + ${movie.director.surname}">Steven
+				Spielberg</span></h2>
+	            </div>
+	           <div th:unless="${movie.director}"> <h2> Informazioni su regista non presenti </h2> </div>
+	           <hr>
+	           
+               <div>
+                    <a class="link" th:href="@{'/artistsForMovie' + '/' + ${movie.id}}">
+                        <h2 th:text="'Visualizza lista attori'"></h2>
+                    </a>
+               </div>
+               
+               <hr>
+               <div style="display: flex;" th:if="!${movie.movieTypes.isEmpty()}">
+				<h2>Generi del film: </h2>
+				<h2 th:each="type: ${movie.movieTypes}" th:text="${type.name}">Azione</h2>
+               </div>
+               <div th:unless="!${movie.movieTypes.isEmpty()}"> <h2> informazioni su genere/i film non presente/i </h2> </div>
+               
+               <hr>
+    <div th:if="${movie.movieReviews==null || movie.movieReviews.isEmpty()}"> <h2>Non ci sono recensioni di questo film</h2></div>
+    <ul>
+		<h2> Recensioni: </h2>
+		<li th:each="review : ${movie.movieReviews}">
+			
+			<a th:href="@{'/reviews' + '/' + ${review.id}}"
+				th:text="${review.title} + '(Valutazione: ' + ${review.valutazione} + ' stelle)'"><h2>Wow (Valutazione n stelle)</h2></a>
+		</li>
+	</ul>
+	</div></div>
+	<a th:href="@{'/default/formNewReview' + '/' + ${movie.id}}"> 
+		<h1> Aggiungi recensione</h1> </a></main>
+  </body>
+</html>

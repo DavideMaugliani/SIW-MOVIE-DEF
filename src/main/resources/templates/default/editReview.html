@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>
+		New Review
+	</title>
+	<link rel="stylesheet" href="/css/stile.css" />
+</head>
+
+<body>
+	<header>
+		<div th:if="${userDetails}">
+			<span th:text="${userDetails.username}"></span>
+			<a href="/logout">Logout</a>
+		</div>
+		<div th:unless="${userDetails}">
+			<a href="/login">Login</a>
+		</div>
+	</header>
+
+	<div class="img"><a href="/"><img src="/images/logo-siw.png" width="50%"/></a></div>
+	<div class="box">
+	<div>
+	<h1>Aggiungi una recensione</h1>
+	<form th:action="@{'/default/editReview' + '/' + ${review.id}}" method="POST" th:object="${review}">
+		
+		<div th:if="${#fields.hasGlobalErrors()}">
+  			<p th:each="err : ${#fields.globalErrors()}" th:text="${err}">...</p> 
+  		</div>
+		
+		<div>
+			<label>Titolo:</label> <span><input class="review1" type="text" th:field="${review.title}" /></span>
+			<span th:if="${#fields.hasErrors('title')}" th:errors="*{title}">
+		    </span>
+		</div>
+		
+		<div>
+		    <label>Valutazione: </label> 
+		    <span><input required type="radio" name="val" value="1" th:field="${review.valutazione}"/> 1 </span>
+		    <span><input required type="radio" name="val" value="2" th:field="${review.valutazione}"/> 2 </span>
+		    <span><input required type="radio" name="val" value="3" th:field="${review.valutazione}"/> 3 </span>
+		    <span><input required type="radio" name="val" value="4" th:field="${review.valutazione}"/> 4 </span>
+		    <span><input required type="radio" name="val" value="5" th:field="${review.valutazione}"/> 5 </span>
+	    </div> 
+	    
+	    <div>
+			<label> Descrizione: </label> <span> <textarea class="review2" th:field="${review.description}"/> </span>
+			<span th:if="${#fields.hasErrors('description')}" th:errors="*{description}">
+		    </span>
+		</div>
+		
+		<div>
+			<span><button type="submit">Conferma</button></span>
+		</div>
+	</form></div></div>
+</body>
+</html>

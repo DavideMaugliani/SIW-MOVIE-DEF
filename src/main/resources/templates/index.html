@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>
+		SiwMovie - Homepage
+	</title>
+	<link rel="stylesheet" href="/css/stile.css" />
+</head>
+
+<body>
+	<header>
+		<div th:if="${userDetails}">
+			<span th:text="${userDetails.username}"></span>
+			<a href="/logout">Logout</a>
+		</div>
+		<div th:unless="${userDetails}">
+			<a href="/login">Login</a>
+		</div>
+	</header>
+
+	<div class="img"><img src="/images/logo-siw.png" width="50%" /></div>
+	<div class="box">
+	<div>
+	<h1>Raccolta</h1>
+	<div>
+		<a href="/movie">Elenco Film</a>
+	</div>
+	<div>
+		<a href="/formSearchMovies">Cerca Film per anno</a>
+	</div>
+	<div>
+		<a href="/formSearchMoviesForType">Cerca Film per genere</a>
+	</div>
+	<div>
+		<a href="/artist">Elenco Artisti</a>
+	</div>
+	<div>
+		<a th:href="@{/default/reviewList}"> Lista recensioni utente </a>
+	</div></div></div>
+</body>
+
+</html>

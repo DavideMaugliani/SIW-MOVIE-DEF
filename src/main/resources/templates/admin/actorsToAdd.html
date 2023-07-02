@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Scelta attori</title>
+	<link rel="stylesheet" href="/css/stile.css" />
+</head>
+
+<body>
+	<header>
+		<div th:if="${userDetails}">
+			<span th:text="${userDetails.username}"></span>
+			<a href="/logout">Logout</a>
+		</div>
+		<div th:unless="${userDetails}">
+			<a href="/login">Login</a>
+		</div>
+	</header>
+	<div class="img"><a href="/"><img src="/images/logo-siw.png" width="50%"/></a></div>
+	<main>
+        <div class="card-slideshow mini-margin-top">
+            <div class="title-div">
+				<h1 th:if="${movie.actors.isEmpty()}" class="title">Non ci sono ancora attori per questo film</h1>
+                <h1 th:unless="${movie.actors.isEmpty()}" class="title" 
+                th:text="'Attori per il film ' + ${movie.title}">Elenco attori</h1>
+            </div>
+            <div class="card-container small-margin-top">
+                <div class="card" th:each="actor : ${movie.actors}">
+                    <div class="card-img">
+                        <img class="boh" th:src="@{'data:image;base64,' + ${actor.urlImage}}">
+                    </div>
+                    <div class="card-info">
+			            <a th:href="@{'/admin/removeActorFromMovie/'+ ${actor.id}+'/'+${movie.id}}" class="link">
+				        <h3 th:text="'Rimuovi ' + ${actor.name} + ' ' + ${actor.surname}">Nome Cognome</h3></a>
+		            </div>
+                </div>
+            </div>
+        </div>
+        
+	    <div class="card-slideshow mini-margin-top">
+            <div class="title-div">
+				<h1 th:if="${actorsToAdd.isEmpty()}" class="title">Non ci sono piu' attori disponibili</h1>
+                <h1 th:unless="${actorsToAdd.isEmpty()}" class="title" 
+                th:text="'Attori che si possono aggiungere:'">Elenco attori</h1>
+            </div>
+            <div class="card-container small-margin-top">
+                <div class="card" th:each="actor : ${actorsToAdd}">
+                    <div class="card-img">
+                        <img class="boh" th:src="@{'data:image;base64,' + ${actor.urlImage}}">
+                    </div>
+                    <div class="card-info">
+			            <a th:href="@{'/admin/addActorToMovie/'+ ${actor.id}+'/'+${movie.id}}" class="link">
+				        <h3 th:text="'Aggiungi ' + ${actor.name} + ' ' + ${actor.surname}">Nome Cognome</h3></a>
+		            </div>
+                </div>
+            </div>
+        </div>
+	
+	<div class="box">
+		<div>
+		<a th:href="@{'/admin/formUpdateMovie/'+ ${movie.id}}"><button type="button">Fine</button></a>
+	</div></div>
+	
+	</main>
+</body>
+
+</html>

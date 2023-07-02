@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Artista</title>
+	<link rel="stylesheet" href="/css/stile.css" />
+</head>
+
+<mbody>
+	<header>
+		<div th:if="${userDetails}">
+			<span th:text="${userDetails.username}"></span>
+			<a href="/logout">Logout</a>
+		</div>
+		<div th:unless="${userDetails}">
+			<a href="/login">Login</a>
+		</div>
+	</header>
+
+	<div class="img"><a href="/"><img src="/images/logo-siw.png" width="50%"/></a></div>
+    <main class="column" style="margin-top: 2%;">
+        <div class="movie-banner">
+            <div id="artist-image" class="column" style="height:100%; width:40%;">
+                <img th:src="@{'data:image;base64,' + ${artist.urlImage}}"
+                    style="height: 300px; width: 220px;margin: 10px 10px 10px 30px;">
+            </div>
+            <div id="artist-info" style="height:100%; width:60%;">
+                <div>
+                    <h2 th:text="'Nome: '+${artist.name}"></h2>
+                </div>
+                <hr>
+                <div>
+                    <h2 th:text="'Cognome: '+${artist.surname}"></h2>
+                </div>
+                <hr>
+                <div>
+                    <h2 th:text=" 'Data di nascita: ' + ${artist.dateOfBirth}">età</h2>
+                </div>
+                <hr>
+                <div th:if="${artist.dateOfDeath}">
+                    <h2 th:text=" 'Data di morte: ' + ${artist.dateOfDeath}">età</h2>
+                </div>
+                <hr>
+                <div>
+		            <a th:href="@{'/admin/editArtist' + '/' + ${artist.id}}"> Modifica artista </a>
+	            </div>
+	            <hr>
+                <div>
+		            <a th:href="@{'/admin/removeArtist' + '/' + ${artist.id}}">Rimuovi artista</a>
+	            </div>
+            </div> 
+        </div>
+    </main>
+  </body>
+</html>

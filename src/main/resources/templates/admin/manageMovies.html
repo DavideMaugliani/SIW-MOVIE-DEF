@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Film</title>
+	<link rel="stylesheet" href="/css/stile.css" />
+</head>
+
+<body>
+	<header>
+		<div th:if="${userDetails}">
+			<span th:text="${userDetails.username}"></span>
+			<a href="/logout">Logout</a>
+		</div>
+		<div th:unless="${userDetails}">
+			<a href="/login">Login</a>
+		</div>
+	</header>
+	
+	<div class="img"><a href="/"><img src="/images/logo-siw.png" width="50%" /></a></div>
+    
+    <main>
+        <div class="title-div">
+            <h1 class="title" th:if="${movies.isEmpty()}">Non ci sono Film nel sistema</h1>
+            <h1 class="title" th:unless="${movies.isEmpty()}">Tutti i Film</h1>
+        </div>
+	<div class="card-slideshow mini-margin-top">
+            <div class="card-container small-margin-top">
+                <div class="card" th:each="movie:${movies}">
+                    <div class="card-img">
+                        <img class="boh" th:src="@{'data:image;base64,' + ${movie.urlImage}}">
+                    </div>
+                    <div class="card-info">
+			            <a th:href="@{'/admin/formUpdateMovie' + '/' + ${movie.id}}" 
+			            th:text="'Aggiorna ' + ${movie.title} + ' (' + ${movie.year} + ')'">Aggiorna</a>
+		            </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>

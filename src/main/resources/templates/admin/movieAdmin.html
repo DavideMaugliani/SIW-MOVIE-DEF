@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Film</title>
+	<link rel="stylesheet" href="/css/stile.css" />
+</head>
+
+<body>
+	<header>
+		<div th:if="${userDetails}">
+			<span th:text="${userDetails.username}"></span>
+			<a href="/logout">Logout</a>
+		</div>
+		<div th:unless="${userDetails}">
+			<a href="/login">Login</a>
+		</div>
+	</header>
+
+	<div class="img"><a href="/"><img src="/images/logo-siw.png" width="50%"/></a></div>
+    <h1>Dettagli Film</h1>
+    <div th:if="${movie}">
+        <span th:text="${movie.title}">Up!</span>
+        <span th:text="'(' + ${movie.year} + ')'">2000</span>
+        <span><img th:src="@{'data:image;base64,' + ${movie.urlImage}}"
+                    style="height: 300px; width: 220px;margin: 10px 10px 10px 30px;"></span>
+    </div>
+    
+    <div th:if="${movie.director}">
+			<span>Regista: </span><span th:text="${movie.director.name} + ' ' + ${movie.director.surname}">Steven
+				Spielberg</span>
+	</div>
+	<div th:unless="${movie.director}"> <span> Informazioni su regista non presenti </span> </div>
+    
+    <div th:if="${movie.actors}">
+			
+			<div th:each="actor: ${movie.actors}">
+				<span>Attori: </span>
+				<span th:text="${actor.name} + ' ' + ${actor.surname}">Al Pacino</span>
+			</div>
+    </div>
+    <div th:unless="${movie.actors}"> <span> informazioni su attore/i non presente/i </span> </div>
+    
+    <div th:if="${movie.movieTypes}">
+			
+			<div th:each="type: ${movie.movieTypes}">
+				<span>Generi del film: </span>
+				<span th:text="${type.name}">Azione</span>
+			</div>
+    </div>
+    <div th:unless="${movie.movieTypes}"> <span> informazioni su genere/i film non presente/i </span> </div>
+    
+    <div th:if="${movie.movieReviews==null || movie.movieReviews.isEmpty()}">Non ci sono recensioni di questo film</div>
+    <ul>
+		<li th:each="review : ${movie.movieReviews}">
+			<a th:href="@{'/reviews' + '/' + ${review.id}}"
+				th:text="${review.title} + '(Valutazione: ' + ${review.valutazione} + ' stelle)'">Wow (Valutazione n stelle)</a>
+		</li>
+	</ul>
+    <a th:href="@{'/default/formNewReview' + '/' + ${movie.id}}"> 
+		<h1> Aggiungi recensione</h1> </a>
+
+    <div th:unless="${movie}">Non esiste</div>
+  </body>
+</html>
